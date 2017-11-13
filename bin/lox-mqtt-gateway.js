@@ -1,5 +1,7 @@
 #!/usr/bin/env node
-const loxMqttGateway = require('../lib/index.js');
+const Adaptor = require('../lib/Adaptor.js');
+const WebSocketAPI = require('../lib/WebSocketAPI.js');
+const Structure = require('node-lox-structure-file');
 
 if (!process.env.NODE_CONFIG_DIR) {
   process.env.NODE_CONFIG_DIR = __dirname + '/../config/';
@@ -10,6 +12,8 @@ var log = require('yalm');
 log.setLevel('debug');
 
 var mqttConnected;
+var loxClient = WebSocketAPI(config.get('miniserver'), log);
+var loxMqttAdaptor;
 
 var mqtt = Mqtt.connect(config.url, {will: {topic: config.name + '/connected', payload: '0', retain: true}});
 
@@ -21,6 +25,10 @@ mqtt.on('connect', function () {
 
   log.info('mqtt subscribe', config.name + '/set/#');
   mqtt.subscribe(config.name + '/set/#');
+
+  if (!loxClient.is_connected()) {
+    loxClient.connect();
+  }
 });
 
 mqtt.on('close', function () {
@@ -32,16 +40,6 @@ mqtt.on('close', function () {
 
 mqtt.on('error', function (err) {
   log.error('mqtt', err);
-});
-
-var app = new loxMqttGateway.App(log);
-var loxClient = loxMqttGateway.WebSocketAPI(config.get('miniserver'), app);
-var loxMqttAdaptor;
-
-app.on('exit', function (code) {
-  if (loxMqttAdaptor) {
-    loxMqttAdaptor.abort();
-  }
 });
 
 function updateEvent (uuid, value) {
@@ -58,7 +56,7 @@ loxClient.on('get_structure_file', function (data) {
     loxMqttAdaptor.abort();
   }
 
-  loxMqttAdaptor = new loxMqttGateway.Adaptor(loxMqttGateway.Structure.create_from_json(data,
+  loxMqttAdaptor = new Adaptor(Structure.create_from_json(data,
     function (value) {
       log.warn('MQTT Structure - invalid type of control', value);
     }
@@ -73,9 +71,7 @@ loxClient.on('get_structure_file', function (data) {
 });
 
 mqtt.on('connect', function (conack) {
-  if (!loxClient.is_connected()) {
-    loxClient.connect();
-  }
+
 });
 
 mqtt.on('message', function (topic, message, packet) {
@@ -84,11 +80,11 @@ mqtt.on('message', function (topic, message, packet) {
   }
   var action = loxMqttAdaptor.get_command_from_topic(topic, message.toString());
 
-  app.log.debug('MQTT Adaptor - for miniserver: ', {uuidAction: action.uuidAction, command: action.command});
+  log.debug('MQTT Adaptor - for miniserver: ', {uuidAction: action.uuidAction, command: action.command});
 
   if (!config.miniserver.readonly) {
     loxClient.send_cmd(action.uuidAction, action.command);
   } else {
-    app.log.debug('MQTT Adaptor - readonly mode');
+    log.debug('MQTT Adaptor - readonly mode');
   }
 });

@@ -2,9 +2,10 @@
 const Adaptor = require('../lib/Adaptor.js');
 const WebSocketAPI = require('../lib/WebSocketAPI.js');
 const Structure = require('node-lox-structure-file');
+const path = require('path');
 
 if (!process.env.NODE_CONFIG_DIR) {
-  process.env.NODE_CONFIG_DIR = __dirname + '/../config/';
+  process.env.NODE_CONFIG_DIR = path.join(__dirname, '/../config/');
 }
 var config = require('config');
 var Mqtt = require('mqtt');

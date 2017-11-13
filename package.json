@@ -4,7 +4,7 @@
   "description": "Gateway for Loxone™ miniserver to communicate with mqtt broker",
   "main": "lib/index.js",
   "bin": {
-      "lox-mqtt-gateway": "bin/lox-mqtt-gateway.js"
+    "lox-mqtt-gateway": "bin/lox-mqtt-gateway.js"
   },
   "scripts": {
     "start": "node bin/lox-mqtt-gateway.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alladdin/node-lox-mqtt-gateway.git"
+    "url": "https://github.com/krambox/loxone2mqtt.git"
   },
   "keywords": [
     "Loxone",
@@ -26,14 +26,14 @@
   },
   "homepage": "https://github.com/alladdin/node-lox-mqtt-gateway#readme",
   "dependencies": {
-      "node-lox-ws-api" : ">=0.3.3",
-      "node-lox-structure-file" : ">=0.1.5",
-      "unidecode": ">=0.1.7",
-      "mqtt": ">=1.7.0",
-      "winston": ">=2.2.0",
-      "config": ">=1.20.0"
+    "node-lox-ws-api": ">=0.3.3",
+    "node-lox-structure-file": ">=0.1.5",
+    "unidecode": ">=0.1.7",
+    "mqtt": ">=1.7.0",
+    "winston": ">=2.2.0",
+    "config": ">=1.20.0"
   },
   "devDependencies": {
-      "vows": ">=0.8.1"
+    "vows": ">=0.8.1"
   }
 }

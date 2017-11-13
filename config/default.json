@@ -7,18 +7,15 @@
         }
     }],
     "mqtt": {
-        "host": "mqtts://localhost:8883",
+        "host": "mqtt://kiste.local",
         "options": {
-            "rejectUnauthorized": false,
-            "username": "test",
-            "password": "test1234",
             "clientId": "lox_to_mqtt_gateway"
         }
     },
     "miniserver": {
-        "host": "192.164.0.77:80",
-        "username": "testlox",
-        "password": "1234",
+        "host": "192.168.1.99",
+        "username": "admin",
+        "password": "klav9hav5ed6",
         "readonly": false,
         "encrypted" : true,
         "mqtt_prefix": "lox"

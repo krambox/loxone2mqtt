@@ -1,11 +1,6 @@
 {
-    "winston": [{
-        "Console": {
-            "level": "debug",
-            "colorize": true,
-            "timestamp": true
-        }
-    }],
+    "name": "lox",
+    "url": "mqtt://kiste.local",
     "mqtt": {
         "host": "mqtt://kiste.local",
         "options": {

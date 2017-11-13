@@ -1,17 +1,40 @@
 #!/usr/bin/env node
-
 const loxMqttGateway = require('../lib/index.js');
 
 if (!process.env.NODE_CONFIG_DIR) {
   process.env.NODE_CONFIG_DIR = __dirname + '/../config/';
 }
 var config = require('config');
-
+var Mqtt = require('mqtt');
 var log = require('yalm');
 log.setLevel('debug');
 
+var mqttConnected;
+
+var mqtt = Mqtt.connect(config.url, {will: {topic: config.name + '/connected', payload: '0', retain: true}});
+
+mqtt.on('connect', function () {
+  mqttConnected = true;
+
+  log.info('mqtt connected', config.url);
+  mqtt.publish(config.name + '/connected', '1', {retain: true}); // TODO eventually set to '2' if target system already connected
+
+  log.info('mqtt subscribe', config.name + '/set/#');
+  mqtt.subscribe(config.name + '/set/#');
+});
+
+mqtt.on('close', function () {
+  if (mqttConnected) {
+    mqttConnected = false;
+    log.info('mqtt closed ' + config.url);
+  }
+});
+
+mqtt.on('error', function (err) {
+  log.error('mqtt', err);
+});
+
 var app = new loxMqttGateway.App(log);
-var mqttClient = loxMqttGateway.mqtt_builder(config.get('mqtt'), app);
 var loxClient = loxMqttGateway.WebSocketAPI(config.get('miniserver'), app);
 var loxMqttAdaptor;
 
@@ -41,21 +64,21 @@ loxClient.on('get_structure_file', function (data) {
     }
   ));
 
-  mqttClient.subscribe(loxMqttAdaptor.get_topic_for_subscription());
+  mqtt.subscribe(loxMqttAdaptor.get_topic_for_subscription());
 
   loxMqttAdaptor.on('for_mqtt', function (topic, data) {
     log.debug('MQTT Adaptor - for mqtt: ', {topic: topic, data: data});
-    mqttClient.publish(topic, data);
+    mqtt.publish(topic, data);
   });
 });
 
-mqttClient.on('connect', function (conack) {
+mqtt.on('connect', function (conack) {
   if (!loxClient.is_connected()) {
     loxClient.connect();
   }
 });
 
-mqttClient.on('message', function (topic, message, packet) {
+mqtt.on('message', function (topic, message, packet) {
   if (!loxMqttAdaptor) {
     return;
   }

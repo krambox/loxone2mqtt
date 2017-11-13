@@ -73,23 +73,6 @@ configuration file has 3 sections
 
 ### sections
 
-#### winston (logger)
-
-It contains array of transports with its options.
-
-```json
-{
-    "winston": [{
-        "Console": {
-            "level": "debug"
-        },
-        "File": {
-            "level": "info",
-            "filename": "somefile.log"
-        }
-    }]
-}
-```
 
 #### mqtt
 

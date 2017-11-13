@@ -7,8 +7,10 @@ if (!process.env.NODE_CONFIG_DIR) {
 }
 var config = require('config');
 
-var logger = loxMqttGateway.Logger(config.get('winston'));
-var app = new loxMqttGateway.App(logger);
+var log = require('yalm');
+log.setLevel('debug');
+
+var app = new loxMqttGateway.App(log);
 var mqttClient = loxMqttGateway.mqtt_builder(config.get('mqtt'), app);
 var loxClient = loxMqttGateway.WebSocketAPI(config.get('miniserver'), app);
 var loxMqttAdaptor;
@@ -35,14 +37,14 @@ loxClient.on('get_structure_file', function (data) {
 
   loxMqttAdaptor = new loxMqttGateway.Adaptor(loxMqttGateway.Structure.create_from_json(data,
     function (value) {
-      logger.warn('MQTT Structure - invalid type of control', value);
+      log.warn('MQTT Structure - invalid type of control', value);
     }
   ));
 
   mqttClient.subscribe(loxMqttAdaptor.get_topic_for_subscription());
 
   loxMqttAdaptor.on('for_mqtt', function (topic, data) {
-    logger.debug('MQTT Adaptor - for mqtt: ', {topic: topic, data: data});
+    log.debug('MQTT Adaptor - for mqtt: ', {topic: topic, data: data});
     mqttClient.publish(topic, data);
   });
 });
@@ -59,11 +61,11 @@ mqttClient.on('message', function (topic, message, packet) {
   }
   var action = loxMqttAdaptor.get_command_from_topic(topic, message.toString());
 
-  app.logger.debug('MQTT Adaptor - for miniserver: ', {uuidAction: action.uuidAction, command: action.command});
+  app.log.debug('MQTT Adaptor - for miniserver: ', {uuidAction: action.uuidAction, command: action.command});
 
   if (!config.miniserver.readonly) {
     loxClient.send_cmd(action.uuidAction, action.command);
   } else {
-    app.logger.debug('MQTT Adaptor - readonly mode');
+    app.log.debug('MQTT Adaptor - readonly mode');
   }
 });

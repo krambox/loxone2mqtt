@@ -62,11 +62,11 @@ loxClient.on('get_structure_file', function (data) {
     }
   ));
 
-  mqtt.subscribe(loxMqttAdaptor.get_topic_for_subscription());
+  mqtt.subscribe(config.name + '/set/#');
 
   loxMqttAdaptor.on('for_mqtt', function (topic, data) {
     log.debug('MQTT Adaptor - for mqtt: ', {topic: topic, data: data});
-    mqtt.publish(topic, data);
+    mqtt.publish(config.name + '/state/' + topic, data);
   });
 });
 

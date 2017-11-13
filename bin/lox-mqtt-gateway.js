@@ -52,6 +52,7 @@ loxClient.on('update_event_text', updateEvent);
 loxClient.on('update_event_value', updateEvent);
 
 loxClient.on('get_structure_file', function (data) {
+  mqtt.publish(config.name + '/connected', '2', {retain: true});
   if (loxMqttAdaptor) {
     loxMqttAdaptor.abort();
   }
@@ -68,10 +69,6 @@ loxClient.on('get_structure_file', function (data) {
     log.debug('MQTT Adaptor - for mqtt: ', {topic: topic, data: data});
     mqtt.publish(config.name + '/state/' + topic, data);
   });
-});
-
-mqtt.on('connect', function (conack) {
-
 });
 
 mqtt.on('message', function (topic, message, packet) {

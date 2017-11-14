@@ -1,12 +1,24 @@
-# node-lox-mqtt-gateway
+# loxone2mqtt
 
-[![Version npm](https://img.shields.io/npm/v/node-lox-mqtt-gateway.svg?style=flat-square)](https://www.npmjs.com/package/node-lox-mqtt-gateway)[![npm Downloads](https://img.shields.io/npm/dm/node-lox-mqtt-gateway.svg?style=flat-square)](https://www.npmjs.com/package/node-lox-mqtt-gateway)
+[![NPM version](https://badge.fury.io/js/loxone2mqtt.svg)](http://badge.fury.io/js/loxone2mqtt)
+[![Dependency Status](https://img.shields.io/gemnasium/krambox/loxone2mqtt.svg?maxAge=2592000)](https://gemnasium.com/github.com/krambox/loxone2mqtt)
+[![Build Status](https://travis-ci.org/krambox/buderus2mqtt.svg?branch=master)](https://travis-ci.org/krambox/loxone2mqtt)
+[![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg?style=flat-square)](https://github.com/Flet/semistandard)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[![NPM](https://nodei.co/npm/node-lox-mqtt-gateway.png?downloads=true&downloadRank=true)](https://nodei.co/npm/node-lox-mqtt-gateway/)
+Gateway for Loxone™ miniserver to communicate with mqtt broker with the  https://github.com/mqtt-smarthome topic and payload format.
 
-Gateway for Loxone™ miniserver to communicate with mqtt broker
+This is a fork of [node-lox-mqtt-gateway](https://github.com/alladdin/node-lox-mqtt-gateway) (c) 2016 Ladislav Dokulil , heavily modified and rewritten to suite my needs.
 
-For communication with miniserver is used WebSocket api described in [Loxone™ API Documentation](http://www.loxone.com/enen/service/documentation/api/api.html)
+Notable changes:
+- https://github.com/mqtt-smarthome topic and payload format 
+- based on xyz2mqtt with yalm for logging and yargs (in progress)
+- teduced and simplified code (in progress)
+- https://github.com/mqtt-smarthome topic and payload format 
+
+
+For communication with miniserver is used WebSocket api described in [Loxone™ API Documentation]
+(https://www.loxone.com/enen/kb/api/)
 
 ## Preamble
 
@@ -16,7 +28,7 @@ Use it at your own risk.
 
 ## Quick start
 
-`sudo npm install -g node-lox-mqtt-gateway`
+`sudo npm install -g loxone2mqtt`
 
 `lox-mqtt-gateway --NODE_CONFIG='{"mqtt":{"host":"mqtt://localhost:1883","options":{"username":"XXX","password":"YYY"}},"miniserver":{"host":"192.168.0.77:80","username":"XXX","password":"YYY"}}'`
 
@@ -24,11 +36,11 @@ Use it at your own risk.
 
 ### MQTT topic base
 
-`mqtt_prefix/category/room/control_name/{state|cmd}`
+`mqtt_prefix/{state|set}/category/room/control_name/`
 
 **example**
 
-`lox/light/bedroom/main_light/state`
+`lox/state/light/bedroom/main_light`
 
 ### States of Loxone™ miniserver to MQTT
 
@@ -36,7 +48,7 @@ If you tries to get the state of specific control you need to subscribe
 
 #### topic
 
-`(MQTT topic base)/state`
+`mqtt_prefix/{state|set}/category/room/control_name/`
 
 #### message contains data
 
@@ -50,26 +62,25 @@ If you could make some action you must publish message with:
 
 #### topic
 
-`(MQTT topic base)/cmd`
+`mqtt_prefix/set/category/room/control_name/`
 
 #### data
 
-There is a command string like in [Loxone™ API Structure file documentation](http://www.loxone.com/tl_files/loxone/downloads/other/loxone-structure-file.pdf)
+There is a command string like in [Loxone™ API Structure file documentation](https://www.loxone.com/dede/wp-content/uploads/sites/2/2016/08/0900_Structure-File.pdf?x94623)
 
 
-#### example of whole message
+#### example of whole message (todo)
 
 ```json
 {
-    "topic": "lox/light/bedroom/main_light/cmd",
-    "data": "on"
+    "topic": "lox/set/light/bedroom/main_light",
+    "val": 1
 }
 ```
 
+## Configuration (todo - switch to yargs command line)
 
-## Configuration
-
-configuration file has 3 sections
+configuration file has 2 sections
 
 ### sections
 
@@ -127,13 +138,6 @@ You could use your own config dir
 
 ```json
 {
-    "winston": [{
-        "Console": {
-            "level": "debug",
-            "colorize": true,
-            "timestamp": true
-        }
-    }],
     "mqtt": {
         "host": "mqtts://localhost:8883",
         "options": {

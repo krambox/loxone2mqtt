@@ -1,13 +1,13 @@
 {
-  "name": "node-lox-mqtt-gateway",
+  "name": "loxone2mqtt",
   "version": "0.0.0-development",
   "description": "Gateway for Loxone™ miniserver to communicate with mqtt broker",
   "main": "lib/index.js",
   "bin": {
-    "lox-mqtt-gateway": "bin/lox-mqtt-gateway.js"
+    "loxone2mqtt": "bin/loxone2mqtt.js"
   },
   "scripts": {
-    "start": "node bin/lox-mqtt-gateway.js",
+    "start": "node bin/loxone2mqtt.js",
     "test": "semistandard && exit 0",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
@@ -20,12 +20,12 @@
     "API",
     "mqtt"
   ],
-  "author": "Ladislav Dokulil <alladdin@zemres.cz>",
+  "author": "Kai Kramer",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/alladdin/node-lox-mqtt-gateway/issues"
+    "url": "https://github.com/alladdin/loxone2mqtt/issues"
   },
-  "homepage": "https://github.com/alladdin/node-lox-mqtt-gateway#readme",
+  "homepage": "https://github.com/alladdin/loxone2mqtt#readme",
   "dependencies": {
     "config": "^1.28.1",
     "mqtt": "^2.14.0",

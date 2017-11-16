@@ -1,19 +1,14 @@
 #!/usr/bin/env node
-const Adaptor = require('../lib/Adaptor.js');
-const WebSocketAPI = require('../lib/WebSocketAPI.js');
+const Adaptor = require('./lib/Adaptor.js');
+const WebSocketAPI = require('./lib/WebSocketAPI.js');
 const Structure = require('node-lox-structure-file');
-const path = require('path');
-
-if (!process.env.NODE_CONFIG_DIR) {
-  process.env.NODE_CONFIG_DIR = path.join(__dirname, '/../config/');
-}
-var config = require('config');
+var config = require('./config.js');
 var Mqtt = require('mqtt');
 var log = require('yalm');
 log.setLevel('debug');
 
 var mqttConnected;
-var loxClient = WebSocketAPI(config.get('miniserver'), log);
+var loxClient = WebSocketAPI(config, log);
 var loxMqttAdaptor;
 
 var mqtt = Mqtt.connect(config.url, {will: {topic: config.name + '/connected', payload: '0', retain: true}});
@@ -22,7 +17,7 @@ mqtt.on('connect', function () {
   mqttConnected = true;
 
   log.info('mqtt connected', config.url);
-  mqtt.publish(config.name + '/connected', '1', {retain: true}); // TODO eventually set to '2' if target system already connected
+  mqtt.publish(config.name + '/connected', '1', {retain: true});
 
   log.info('mqtt subscribe', config.name + '/set/#');
   mqtt.subscribe(config.name + '/set/#');

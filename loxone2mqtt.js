@@ -5,7 +5,7 @@ const Structure = require('node-lox-structure-file');
 var config = require('./config.js');
 var Mqtt = require('mqtt');
 var log = require('yalm');
-log.setLevel('debug');
+log.setLevel(config.verbose);
 
 var mqttConnected;
 var loxClient = WebSocketAPI(config, log);
@@ -40,7 +40,7 @@ mqtt.on('error', function (err) {
 
 function updateEvent (uuid, value) {
   if (loxMqttAdaptor) {
-    loxMqttAdaptor.set_value_for_uuid(uuid, value);
+    loxMqttAdaptor.setValueForUUID(uuid, value);
   }
 }
 
@@ -57,7 +57,7 @@ loxClient.on('get_structure_file', function (data) {
     function (value) {
       log.warn('MQTT Structure - invalid type of control', value);
     }
-  ));
+  ), log);
 
   mqtt.subscribe(config.name + '/set/#');
 
@@ -71,7 +71,7 @@ mqtt.on('message', function (topic, message, packet) {
   if (!loxMqttAdaptor) {
     return;
   }
-  var action = loxMqttAdaptor.get_command_from_topic(topic, message.toString());
+  var action = loxMqttAdaptor.getCommandFromTopic(topic, message.toString());
 
   log.debug('MQTT Adaptor - for miniserver: ', {uuidAction: action.uuidAction, command: action.command});
 

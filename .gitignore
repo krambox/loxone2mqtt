@@ -43,3 +43,4 @@ config/local*
 *.swp
 config/default.json
 loxone.env
+structure.json

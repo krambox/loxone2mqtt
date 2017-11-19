@@ -154,4 +154,18 @@ You could use your own config dir
 }
 ```
 
+## Build and run local Docker container
+
+    docker build -t loxone2mqtt .
+
+    docker run --env-file ./loxone.env -it km200 loxone2mqtt 
+
+With an loxone.env file
+
+```
+LOXONE_url=mqtt://localhost
+LOXONE_userid=admin
+LOXONE_password=password
+LOXONE_loxone=loxone.local
+```
 

@@ -28,7 +28,7 @@
   "homepage": "https://github.com/alladdin/loxone2mqtt#readme",
   "dependencies": {
     "mqtt": "^2.14.0",
-    "node-lox-structure-file": "^0.1.5",
+    "node-lox-structure-file": "git+https://github.com/krambox/node-lox-structure-file.git",
     "node-lox-ws-api": "^0.4.3",
     "unidecode": "^0.1.8",
     "yalm": "^4.1.0",
@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "pre-commit": "^1.2.2",
-    "semantic-release": "^8.2.0",
+    "semantic-release": "^8.2.3",
     "semistandard": "^11.0.0"
   }
 }

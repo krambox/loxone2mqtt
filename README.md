@@ -110,7 +110,6 @@ It contains:
 * **host** - miniserver address (hostname:port)
 * **username** - credentials for miniserver
 * **password**
-* **readonly** - if it's set to true then no commands will be send to miniserver - it's for testing and development
 * **encrypted** - use AES-256-CBC encrypted web sockets
 * **mqtt_prefix** - topic prefix for Loxone™ messages
 
@@ -120,7 +119,6 @@ It contains:
         "host": "192.168.0.77:80",
         "username": "testlox",
         "password": "1234",
-        "readonly": false,
         "encrypted": true,
         "mqtt_prefix": "lox"
     }
@@ -151,7 +149,6 @@ You could use your own config dir
         "host": "192.168.0.77:80",
         "username": "testlox",
         "password": "1234",
-        "readonly": false,
         "mqtt_prefix": "lox"
     }
 }

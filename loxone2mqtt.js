@@ -74,13 +74,13 @@ mqtt.on('message', function (topic, message, packet) {
   if (!loxMqttAdaptor) {
     return;
   }
-  var action = loxMqttAdaptor.getCommandFromTopic(topic, message.toString());
+  const topicPrefix = config.name + '/set/';
+  if (topic.startsWith(topicPrefix)) {
+    let path = topic.substring(topicPrefix.length);
 
-  log.debug('MQTT Adaptor - for miniserver: ', {uuidAction: action.uuidAction, command: action.command});
+    var action = loxMqttAdaptor.getCommandFromTopic(path, message.toString());
 
-  if (!config.miniserver.readonly) {
+    log.debug('MQTT Adaptor - for miniserver: ', {uuidAction: action.uuidAction, command: action.command});
     loxClient.send_cmd(action.uuidAction, action.command);
-  } else {
-    log.debug('MQTT Adaptor - readonly mode');
   }
 });

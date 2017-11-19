@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.org/krambox/buderus2mqtt.svg?branch=master)](https://travis-ci.org/krambox/loxone2mqtt)
 [![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg?style=flat-square)](https://github.com/Flet/semistandard)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![Docker Build Status](https://img.shields.io/docker/build/krambox/loxone2mqtt.svg)](https://hub.docker.com/r/krambox/loxone2mqtt/)
+![Docker Build Status](https://img.shields.io/docker/build/krambox/loxone2mqtt.svg)](https://hub.docker.com/r/krambox/loxone2mqtt/)re
 
 Gateway for Loxone™ miniserver to communicate with mqtt broker with the  https://github.com/mqtt-smarthome topic and payload format.
 

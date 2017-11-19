@@ -54,21 +54,19 @@ loxClient.on('get_structure_file', function (data) {
   }
 
   loxMqttAdaptor = new Adaptor(Structure.create_from_json(data,
-    function (value) {
+    (value) => {
       log.warn('MQTT Structure - invalid type of control', value);
     }
-  ), log);
+  ), (topic, data) => {
+    log.debug('MQTT Adaptor - for mqtt meta: ', {topic: topic, data: data});
+    mqtt.publish(config.name + '/meta/' + topic, data, {retain: true});
+  }, log);
 
   mqtt.subscribe(config.name + '/set/#');
 
   loxMqttAdaptor.on('for_mqtt_state', function (topic, data) {
     log.debug('MQTT Adaptor - for mqtt: ', {topic: topic, data: data});
-    mqtt.publish(config.name + '/state/' + topic, data);
-  });
-
-  loxMqttAdaptor.on('for_mqtt_meta', function (topic, data) {
-    log.debug('MQTT Adaptor - for mqtt meta: ', {topic: topic, data: data});
-    mqtt.publish(config.name + '/meta/' + topic, data);
+    mqtt.publish(config.name + '/state/' + topic, data, {retain: true});
   });
 });
 

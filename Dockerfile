@@ -12,6 +12,7 @@ WORKDIR /root/app
 ENTRYPOINT ["/sbin/tini", "--"]
 # copy project file
 COPY package.json .
+COPY package-locl.json .
  
 #
 # ---- Dependencies ----
@@ -32,5 +33,7 @@ WORKDIR /root/app
 # copy production node_modules
 COPY --from=dependencies /root/app/prod_node_modules ./node_modules
 # copy app sources
-COPY . .
+COPY package.json .
+COPY config.js .
+COPY loxone2mqtt.js .
 CMD ./loxone2mqtt.js 

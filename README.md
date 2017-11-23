@@ -29,15 +29,31 @@ Use it at your own risk.
 
 ## Quick start
 
-`sudo npm install -g loxone2mqtt`
+````
+Gateway for Loxone™ miniserver to communicate with mqtt broker
 
-`lox-mqtt-gateway --NODE_CONFIG='{"mqtt":{"host":"mqtt://localhost:1883","options":{"username":"XXX","password":"YYY"}},"miniserver":{"host":"192.168.0.77:80","username":"XXX","password":"YYY"}}'`
+Usage: loxone2mqtt.js [options]
+
+Optionen:
+  -v, --verbosity  possible values: "error", "warn", "info", "debug"
+                                                              [Standard: "info"]
+  -n, --name       instance name. used as mqtt client id and as prefix for
+                   connected topic                             [Standard: "lox"]
+  -u, --url        mqtt broker url. See
+                   https://github.com/mqttjs/MQTT.js#connect-using-a-url
+                                                  [Standard: "mqtt://127.0.0.1"]
+  -p, --password   Loxone passcode
+  -l, --loxone     Loxone host
+  -i, --userid     Loxone user id
+  -h, --help       Hilfe anzeigen                                      [boolean]
+  --version        Version anzeigen                                    [boolean]
+```
 
 ## MQTT Interface
 
 ### MQTT topic base
 
-`mqtt_prefix/{state|set}/category/room/control_name/`
+`{name}/{state|set|meta}/category/room/control_name/`
 
 **example**
 
@@ -76,82 +92,6 @@ There is a command string like in [Loxone™ API Structure file documentation](h
 {
     "topic": "lox/set/light/bedroom/main_light",
     "val": 1
-}
-```
-
-## Configuration (todo - switch to yargs command line)
-
-configuration file has 2 sections
-
-### sections
-
-
-#### mqtt
-
-It contains host and options for [mqtt](https://github.com/mqttjs/MQTT.js).
-
-[Detailed explanation of the options.](https://github.com/mqttjs/MQTT.js#mqttclientstreambuilder-options)
-
-```json
-{
-    "mqtt": {
-        "host": "mqtt://localhost:1883",
-        "options": {
-            "username": "test",
-            "password": "test1234"
-        }
-    }
-}
-```
-
-#### miniserver
-
-It contains:
-
-* **host** - miniserver address (hostname:port)
-* **username** - credentials for miniserver
-* **password**
-* **encrypted** - use AES-256-CBC encrypted web sockets
-* **mqtt_prefix** - topic prefix for Loxone™ messages
-
-```json
-{
-    "miniserver": {
-        "host": "192.168.0.77:80",
-        "username": "testlox",
-        "password": "1234",
-        "encrypted": true,
-        "mqtt_prefix": "lox"
-    }
-}
-```
-### your own config dir
-
-You could use your own config dir
-
-`lox-mqtt-gateway --NODE_CONFIG_DIR='/your/config/dir'`
-
-### example
-
-#### /your/config/dir/default.json
-
-```json
-{
-    "mqtt": {
-        "host": "mqtts://localhost:8883",
-        "options": {
-            "rejectUnauthorized": false,
-            "username": "test",
-            "password": "test1234",
-            "clientId": "lox_to_mqtt_gateway"
-        }
-    },
-    "miniserver": {
-        "host": "192.168.0.77:80",
-        "username": "testlox",
-        "password": "1234",
-        "mqtt_prefix": "lox"
-    }
 }
 ```
 

@@ -36,4 +36,5 @@ COPY --from=dependencies /root/app/prod_node_modules ./node_modules
 COPY package.json .
 COPY config.js .
 COPY loxone2mqtt.js .
+COPY lib/* ./lib/
 CMD ./loxone2mqtt.js 

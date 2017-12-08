@@ -66,7 +66,7 @@ loxClient.on('get_structure_file', function (data) {
 
   loxMqttAdaptor.on('for_mqtt_state', function (topic, data) {
     log.debug('MQTT Adaptor - for mqtt: ', {topic: topic, data: data});
-    mqtt.publish(config.name + '/state/' + topic, data, {retain: true});
+    mqtt.publish(config.name + '/status/' + topic, data, {retain: true});
   });
 });
 

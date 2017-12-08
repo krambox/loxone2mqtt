@@ -12,7 +12,7 @@ WORKDIR /root/app
 ENTRYPOINT ["/sbin/tini", "--"]
 # copy project file
 COPY package.json .
-COPY package-locl.json .
+COPY package-lock.json .
  
 #
 # ---- Dependencies ----

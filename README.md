@@ -47,7 +47,7 @@ Optionen:
   -i, --userid     Loxone user id
   -h, --help       Hilfe anzeigen                                      [boolean]
   --version        Version anzeigen                                    [boolean]
-```
+````
 
 ## MQTT Interface
 

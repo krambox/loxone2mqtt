@@ -1,5 +1,6 @@
 # loxone2mqtt
 
+[![mqtt-smarthome](https://img.shields.io/badge/mqtt-smarthome-blue.svg)](https://github.com/mqtt-smarthome/mqtt-smarthome)
 [![NPM version](https://badge.fury.io/js/loxone2mqtt.svg)](http://badge.fury.io/js/loxone2mqtt)
 [![Dependency Status](https://img.shields.io/gemnasium/krambox/loxone2mqtt.svg?maxAge=2592000)](https://gemnasium.com/github.com/krambox/loxone2mqtt)
 [![Build Status](https://travis-ci.org/krambox/buderus2mqtt.svg?branch=master)](https://travis-ci.org/krambox/loxone2mqtt)

@@ -99,7 +99,7 @@ There is a command string like in [Loxone™ API Structure file documentation](h
 
     docker build -t loxone2mqtt .
 
-    docker run --env-file ./loxone.env -it km200 loxone2mqtt 
+    docker run --env-file ./loxone.env -i loxone2mqtt 
 
 With an loxone.env file
 

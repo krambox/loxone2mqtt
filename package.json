@@ -27,12 +27,12 @@
   },
   "homepage": "https://github.com/alladdin/loxone2mqtt#readme",
   "dependencies": {
-    "mqtt": "^2.14.0",
+    "mqtt": "^2.15.2",
     "node-lox-structure-file": "git+https://github.com/krambox/node-lox-structure-file.git",
     "node-lox-ws-api": "^0.4.3",
     "unidecode": "^0.1.8",
     "yalm": "^4.1.0",
-    "yargs": "^10.0.3"
+    "yargs": "^10.1.2"
   },
   "devDependencies": {
     "pre-commit": "^1.2.2",
